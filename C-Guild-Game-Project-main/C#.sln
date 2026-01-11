@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "GuildGame\Domain\Domain.csproj", "{C4EEB1F8-5C28-4FE3-8A70-6C1C3C3A8BC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "GuildGame\Services\Services.csproj", "{8C59C59E-24D8-4A4A-8737-559D2C5B89F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "GuildGame\UI\UI.csproj", "{EFA44FE9-3C6F-4E7C-8826-1602043614DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4EEB1F8-5C28-4FE3-8A70-6C1C3C3A8BC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EEB1F8-5C28-4FE3-8A70-6C1C3C3A8BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EEB1F8-5C28-4FE3-8A70-6C1C3C3A8BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4EEB1F8-5C28-4FE3-8A70-6C1C3C3A8BC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C59C59E-24D8-4A4A-8737-559D2C5B89F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C59C59E-24D8-4A4A-8737-559D2C5B89F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C59C59E-24D8-4A4A-8737-559D2C5B89F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C59C59E-24D8-4A4A-8737-559D2C5B89F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFA44FE9-3C6F-4E7C-8826-1602043614DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA44FE9-3C6F-4E7C-8826-1602043614DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA44FE9-3C6F-4E7C-8826-1602043614DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA44FE9-3C6F-4E7C-8826-1602043614DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8C82570C-4F84-40A9-9433-6AB1B12BA676}
+	EndGlobalSection
+EndGlobal

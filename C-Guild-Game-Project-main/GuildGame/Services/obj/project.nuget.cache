@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "kOsiW8/rwUQ=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\rafam\\Downloads\\C-Guild-Game-Project-main\\C-Guild-Game-Project-main\\GuildGame\\Services\\Services.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rafam\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.21\\microsoft.netcore.app.ref.8.0.21.nupkg.sha512",
+    "C:\\Users\\rafam\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.21\\microsoft.windowsdesktop.app.ref.8.0.21.nupkg.sha512",
+    "C:\\Users\\rafam\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.21\\microsoft.aspnetcore.app.ref.8.0.21.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,317 @@
+<Window x:Class="GuildGame.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GuildGame.UI"
+        xmlns:vm="clr-namespace:GuildGame.UI.ViewModels"
+        xmlns:conv="clr-namespace:GuildGame.UI.Converters"
+        mc:Ignorable="d"
+        Title="Guild Manager" Height="720" Width="1100">
+    <Window.Resources>
+        <conv:AbsValueConverter x:Key="AbsValueConverter" />
+        <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:GameViewModel />
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Banner -->
+        <Border Grid.Row="0" Grid.ColumnSpan="3" Padding="8" CornerRadius="6" Background="{Binding BannerBrush}">
+            <TextBlock Text="{Binding StatusBanner}" FontWeight="Bold" FontSize="18" Foreground="White" />
+        </Border>
+
+        <!-- Header resources -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <TextBlock Text="Jour:" FontWeight="Bold" />
+            <TextBlock Text="{Binding Day}" />
+            <TextBlock Text="Phase:" FontWeight="Bold" Margin="20,0,0,0" Foreground="DarkGreen" />
+            <TextBlock Text="{Binding CurrentPhase}" Foreground="Green" FontWeight="Bold" />
+            <TextBlock Text="Argent:" FontWeight="Bold" Margin="20,0,0,0" />
+            <TextBlock Text="{Binding Money}" />
+            <TextBlock Text="Nourriture:" FontWeight="Bold" Margin="20,0,0,0" />
+            <TextBlock Text="{Binding Food}" />
+            <TextBlock Text="Soins:" FontWeight="Bold" Margin="20,0,0,0" />
+            <TextBlock Text="{Binding Medicine}" />
+            <TextBlock Text="Équipement:" FontWeight="Bold" Margin="20,0,0,0" />
+            <TextBlock Text="{Binding Equipment}" />
+            <TextBlock Text="Dette:" FontWeight="Bold" Margin="20,0,0,0" />
+            <TextBlock Text="{Binding Debt}" />
+        </StackPanel>
+
+        <!-- Heroes -->
+        <!-- Heroes -->
+        <GroupBox Grid.Row="2" Grid.Column="0" Header="Héros" Margin="0,10,10,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.2*" />
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Row="0" Grid.Column="0" x:Name="HeroList" ItemsSource="{Binding Heroes}" SelectionMode="Extended" SelectedItem="{Binding SelectedHero, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="0,0,0,6">
+                                <TextBlock FontWeight="Bold" Text="{Binding DisplayLabel}" />
+                                <TextBlock FontSize="11">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Classe: {0}">
+                                            <Binding Path="DisplayClass" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="11">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="PV: {0} | Fatigue: {1} | Faim: {2}">
+                                            <Binding Path="Health" />
+                                            <Binding Path="Fatigue" />
+                                            <Binding Path="Hunger" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="11">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Traits: {0}">
+                                            <Binding Path="DisplayTraits" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <Button Content="Recruter un héros" Command="{Binding RecruitCommand}" Padding="8,4" Margin="0,0,0,4" />
+                    <Button Content="Marchand" Command="{Binding OpenMerchantCommand}" Padding="8,4" />
+                </StackPanel>
+                <ScrollViewer Grid.Column="1" Margin="10,0,0,0" MinWidth="220">
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" Text="Détails" />
+                        <TextBlock Text="{Binding SelectedHeroStats}" Margin="0,4,0,4" TextWrapping="Wrap" FontSize="11" />
+                        <TextBlock Text="{Binding SelectedHeroTraits}" Margin="0,0,0,8" TextWrapping="Wrap" FontSize="11" />
+                        <TextBlock Text="PV" FontSize="11" />
+                        <ProgressBar Minimum="0" Maximum="{Binding SelectedHero.MaxHealth}" Height="14" Value="{Binding SelectedHero.Health}" />
+                        <TextBlock Text="Fatigue" FontSize="11" Margin="0,6,0,0" />
+                        <ProgressBar Minimum="0" Maximum="{Binding SelectedHero.MaxFatigue}" Height="14" Value="{Binding SelectedHero.Fatigue}" />
+                        <TextBlock Text="Faim" FontSize="11" Margin="0,6,0,0" />
+                        <ProgressBar Minimum="0" Maximum="100" Height="14" Value="{Binding SelectedHero.Hunger}" />
+                        
+                        <!-- NOUVELLE SECTION SOINS -->
+                        <Border BorderBrush="LightGreen" BorderThickness="1" Padding="6" Margin="0,12,0,0" CornerRadius="4">
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold" Text="🏥 Soins" Margin="0,0,0,6" />
+                                <Button Content="Soin Léger" Command="{Binding HealMinorCommand}" Padding="6,3" Margin="0,0,0,3" FontSize="11">
+                                    <Button.ToolTip>
+                                        <TextBlock Text="Restaure 25 PV&#x0a;Coût: 5💰 1⚕️" />
+                                    </Button.ToolTip>
+                                </Button>
+                                <Button Content="Soin Moyen" Command="{Binding HealMajorCommand}" Padding="6,3" Margin="0,0,0,3" FontSize="11">
+                                    <Button.ToolTip>
+                                        <TextBlock Text="Restaure 50 PV&#x0a;Coût: 15💰 3⚕️" />
+                                    </Button.ToolTip>
+                                </Button>
+                                <Button Content="Soin Complet" Command="{Binding HealFullCommand}" Padding="6,3" Margin="0,0,0,6" FontSize="11">
+                                    <Button.ToolTip>
+                                        <TextBlock Text="Restaure tous les PV&#x0a;Coût: 30💰 5⚕️" />
+                                    </Button.ToolTip>
+                                </Button>
+                                <TextBlock Text="{Binding HealStatusMessage}" FontSize="10" TextWrapping="Wrap" Foreground="{Binding HealStatusColor}" />
+                            </StackPanel>
+                        </Border>
+                        
+                        <TextBlock FontWeight="Bold" Text="Équipements" Margin="0,8,0,4" />
+                        <ItemsControl ItemsSource="{Binding SelectedHeroEquipment}" MaxHeight="80">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="11">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="- {0}">
+                                                    <Binding Path="Name" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <Button Content="Retirer" FontSize="10" Padding="4,0" Margin="8,0,0,0" 
+                                                Command="{Binding DataContext.UnequipItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                                CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </GroupBox>
+
+        <!-- Missions -->
+        <GroupBox Grid.Row="2" Grid.Column="1" Header="Missions" Margin="0,10,10,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ListBox x:Name="MissionList" ItemsSource="{Binding Missions}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="0,0,0,6">
+                                <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                <TextBlock FontSize="11">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Phase: {0}">
+                                            <Binding Path="Phase" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="11">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Difficulté: {0}">
+                                            <Binding Path="Difficulty" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="11" Foreground="Green">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Récompense: Or +{0}, Nourriture +{1}, Équip +{2}">
+                                            <Binding Path="Reward.Money" />
+                                            <Binding Path="Reward.Food" />
+                                            <Binding Path="Reward.Equipment" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="11">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Objet rare: {0}">
+                                            <Binding Path="RareItemReward.Name" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock FontSize="11" Foreground="Green">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Assigné à: {0}">
+                                            <Binding Path="AssignedHeroesDisplay" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+                    <Button Content="Assigner héros disponibles" Click="Assign_Click" Padding="8,4" />
+                    <Button Content="Rafraîchir" Command="{Binding RefreshMissionsCommand}" Padding="8,4" />
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- Pending assignments and actions -->
+        <GroupBox Grid.Row="3" Grid.ColumnSpan="3" Header="Actions du tour" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock FontWeight="Bold" Text="Missions planifiées" />
+                    <ItemsControl ItemsSource="{Binding PendingAssignments}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="LightBlue" BorderThickness="1" Padding="6" Margin="0,0,0,8">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock FontWeight="Bold" Text="{Binding Mission.Name}" />
+                                            <Button Content="Annuler" FontSize="10" Padding="4,2" Margin="8,0,0,0" Command="{Binding DataContext.CancelMissionCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" />
+                                        </StackPanel>
+                                        <ItemsControl ItemsSource="{Binding Heroes}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="11">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="- {0}">
+                                                                <Binding Path="DisplayLabel" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Content="Phase matin" Command="{Binding RunMorningCommand}" Padding="8,4" />
+                    <Button Content="Phase après-midi" Command="{Binding RunAfternoonCommand}" Padding="8,4" />
+                    <Button Content="Phase soir" Command="{Binding RunEveningCommand}" Padding="8,4" />
+                    <Button Content="Recommencer" Command="{Binding RestartCommand}" Padding="8,4" Margin="0,20,0,0" Background="Orange" Visibility="{Binding DefeatMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock FontWeight="Bold" Text="État" />
+                    <TextBlock Text="{Binding DefeatMessage}" Foreground="Red" />
+                    <TextBlock FontWeight="Bold" Text="Objets rares (inventaire)" Margin="0,10,0,4" />
+                    <ItemsControl ItemsSource="{Binding RareItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="LightGray" BorderThickness="1" Padding="4" Margin="0,0,0,6">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                        <TextBlock FontSize="11" Text="{Binding Description}" />
+                                        <TextBlock FontSize="11">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Catégorie: {0}">
+                                                    <Binding Path="Category" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <TextBlock FontSize="11">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Buff: {0}">
+                                                    <Binding Path="DisplayBuff" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <Button Content="Équiper sur le héros sélectionné" Padding="4,2" Command="{Binding DataContext.EquipItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- Logs -->
+        <GroupBox Grid.Row="4" Grid.ColumnSpan="3" Header="Journal">
+            <ScrollViewer Height="140">
+                <ItemsControl ItemsSource="{Binding Logs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
+    </Grid>
+</Window>
